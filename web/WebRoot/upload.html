@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- 功能:上传文件 -->
+<html>
+  <head>
+    <title>upload.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  <!-- enctype--指定上传文件的协议 -->
+    <form action="/web/UploadServlet" method="post" enctype="multipart/form-data">
+    file:<input type="file" name="filename">
+    name:<input type="text" name="name">
+    <input type="submit" value="submit">
+    </form>
+  </body>
+</html>
