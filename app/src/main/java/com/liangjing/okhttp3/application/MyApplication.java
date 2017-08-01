@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.liangjing.filedownload.file.FileStorageManager;
 import com.liangjing.filedownload.http.HttpManager;
+import com.liangjing.filedownload.utils.DownloadHelper;
 
 /**
  * Created by liangjing on 2017/7/31.
@@ -17,5 +18,6 @@ public class MyApplication extends Application {
         super.onCreate();
         FileStorageManager.getInstance().init(this);
         HttpManager.getInstance().init(this);
+        DownloadHelper.getInstance().init(this);
     }
 }

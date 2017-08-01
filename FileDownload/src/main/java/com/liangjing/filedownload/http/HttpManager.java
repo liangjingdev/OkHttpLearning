@@ -27,6 +27,7 @@ public class HttpManager {
     //errorCode
     public static final int NETWORK_ERROR_CODE = 1;
     public static final int CONTENT_LENGTH_ERROR_CODE = 2;
+    public static final int TASK_RUNNING_ERROR_CODE = 3;//表示当前下载任务正在执行了，不需要重复提交
 
     private Context mContext;
 
