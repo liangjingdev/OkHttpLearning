@@ -22,7 +22,7 @@ import okhttp3.Response;
 
 public class HttpManager {
 
-    private static final HttpManager sManager = new HttpManager();
+    private static volatile HttpManager sManager = new HttpManager();
 
     //errorCode
     public static final int NETWORK_ERROR_CODE = 1;
@@ -38,6 +38,13 @@ public class HttpManager {
     }
 
     public static HttpManager getInstance() {
+        if (sManager == null) {
+            synchronized (HttpManager.class) {
+                if (sManager == null) {
+                    sManager = new HttpManager();
+                }
+            }
+        }
         return sManager;
     }
 

@@ -1,10 +1,11 @@
 package com.liangjing.filedownload;
 
+import com.liangjing.filedownload.config.DownloadConfig;
 import com.liangjing.filedownload.db.DownloadEntity;
+import com.liangjing.filedownload.db.DownloadHelper;
 import com.liangjing.filedownload.file.FileStorageManager;
 import com.liangjing.filedownload.http.DownloadCallback;
 import com.liangjing.filedownload.http.HttpManager;
-import com.liangjing.filedownload.utils.DownloadHelper;
 import com.liangjing.filedownload.utils.LoggerUtil;
 
 import java.io.File;
@@ -33,12 +34,16 @@ import okhttp3.Response;
 public class DownloadManager {
 
     //最大线程数
-    private final static int MAX_THREAD = 2;
-    private static DownloadManager sManager = new DownloadManager();
+    public final static int MAX_THREAD = 2;
+    public final static int LOCAL_PROGRESS_SIZE = 1;
+    private static volatile DownloadManager sManager = new DownloadManager();
     private long mLength;
 
-    //监控进度的线程(该过程比较耗时)
-    private static final ExecutorService sLocal_Progress_Pool = Executors.newFixedThreadPool(1);
+    //线程池
+    private static ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(MAX_THREAD, MAX_THREAD, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+
+    //监控下载进度的线程(该过程比较耗时)
+    private static ExecutorService sLocalProgressPool = Executors.newFixedThreadPool(LOCAL_PROGRESS_SIZE);
 
     //缓存(下载)数据
     private List<DownloadEntity> mCache;
@@ -46,20 +51,30 @@ public class DownloadManager {
     //需要维护一个HashSet任务集合,保证每一个下载任务都是唯一的值。
     private HashSet<DownloadTask> mHashSet = new HashSet<>();
 
-    //需要对多个线程进行管理，所以需要有一个线程池
-    private static final ThreadPoolExecutor sThreadPool = new ThreadPoolExecutor(MAX_THREAD, MAX_THREAD, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(), new ThreadFactory() {
-
-        private AtomicInteger mInteger = new AtomicInteger(1);
-
-        @Override
-        public Thread newThread(Runnable runnable) {
-            //对每个线程都指定了一个名字
-            Thread thread = new Thread(runnable, "download thread #" + mInteger.getAndIncrement());
-            return thread;
-        }
-    });
-
     private DownloadManager() {
+    }
+
+
+    /**
+     * function:暴露该处由外部初始化来决定核心线程数、最大线程数等...
+     * @param config
+     */
+    public void init(DownloadConfig config) {
+
+        //需要对多个线程进行管理，所以需要有一个线程池
+        sThreadPool = new ThreadPoolExecutor(config.getCoreThreadSize(), config.getMaxThreadSize(), 60, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(), new ThreadFactory() {
+
+            private AtomicInteger mInteger = new AtomicInteger(1);
+
+            @Override
+            public Thread newThread(Runnable runnable) {
+                //对每个线程都指定了一个名字
+                Thread thread = new Thread(runnable, "download thread #" + mInteger.getAndIncrement());
+                return thread;
+            }
+        });
+
+        sLocalProgressPool = Executors.newFixedThreadPool(config.getLocalProgressThreadSize());
     }
 
     public static DownloadManager getInstance() {
@@ -139,7 +154,10 @@ public class DownloadManager {
         }
         mHashSet.add(task);
 
-        sLocal_Progress_Pool.execute(new Runnable() {
+        /**
+         * function:不断地从数据库中获取文件当前已下载的大小，然后不断的将它与总文件大小进行比较，获取进度的百分比
+         */
+        sLocalProgressPool.execute(new Runnable() {
             @Override
             public void run() {
                 while (true) {
@@ -165,6 +183,7 @@ public class DownloadManager {
         });
 
     }
+
 
     /**
      * //判断每个线程所需要下载多长的数据

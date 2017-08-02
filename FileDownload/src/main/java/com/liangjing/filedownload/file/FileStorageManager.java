@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class FileStorageManager {
 
-    private static final FileStorageManager sManager = new FileStorageManager();
+    private static volatile FileStorageManager sManager = new FileStorageManager();
 
     private Context mContext;
 
@@ -23,6 +23,13 @@ public class FileStorageManager {
     }
 
     public static FileStorageManager getInstance() {
+        if (sManager == null) {
+            synchronized (FileStorageManager.class) {
+                if (sManager == null) {
+                    sManager = new FileStorageManager();
+                }
+            }
+        }
         return sManager;
     }
 

@@ -1,10 +1,12 @@
 package com.liangjing.filedownload;
 
+import android.os.Process;
+
 import com.liangjing.filedownload.db.DownloadEntity;
 import com.liangjing.filedownload.file.FileStorageManager;
 import com.liangjing.filedownload.http.DownloadCallback;
 import com.liangjing.filedownload.http.HttpManager;
-import com.liangjing.filedownload.utils.DownloadHelper;
+import com.liangjing.filedownload.db.DownloadHelper;
 import com.liangjing.filedownload.utils.LoggerUtil;
 
 import java.io.File;
@@ -48,6 +50,9 @@ public class DownloadRunnable implements Runnable {
      */
     @Override
     public void run() {
+
+        //设置线程优先级别为后台线程，为了减少系统调度时间，使UI线程会得到更多响应时间(属于线程优化)
+        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
         Response response = HttpManager.getInstance().syncRequestByRange(mUrl, mStart, mEnd);
         //需要判断获取到的response是否为空
         if (response == null && mCallback != null) {
