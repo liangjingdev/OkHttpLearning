@@ -1,1 +1,1 @@
-include ':app', ':lib', ':FileDownload'
+include ':app', ':lib', ':FileDownload', ':httpconnection'

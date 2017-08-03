@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/FileDownload/FileDownload.iml" filepath="$PROJECT_DIR$/FileDownload/FileDownload.iml" />
       <module fileurl="file://$PROJECT_DIR$/Okhttp3.iml" filepath="$PROJECT_DIR$/Okhttp3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/httpconnection/httpconnection.iml" filepath="$PROJECT_DIR$/httpconnection/httpconnection.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
     </modules>
   </component>
