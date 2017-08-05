@@ -12,7 +12,7 @@ import java.util.zip.GZIPInputStream;
  * Created by liangjing on 2017/8/3.
  * function:对HttpResponse进行封装(上层封装)
  * 该抽象类主要是对响应数据多做了一层判断，相当于一个过滤网。
- * 为了处理压缩这种情况，该抽象类实现了HttpResponse接口中的getBody()、close()，
+ * 为了处理数据被压缩了这种情况，该抽象类实现了HttpResponse接口中的getBody()、close()方法
  * 做了一些共性的预处理操作，同时为具体实现的子类留出了getBodyInternal()、closeInternal()抽象方法。
  */
 

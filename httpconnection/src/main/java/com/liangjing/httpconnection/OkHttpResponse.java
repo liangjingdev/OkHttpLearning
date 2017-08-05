@@ -10,10 +10,11 @@ import okhttp3.Response;
 
 /**
  * Created by liangjing on 2017/8/2.
- * function:HttpResponse--实现类
+ * function:HttpResponse--实现类（OkHttpResponse）
  */
 
 public class OkHttpResponse extends AbstractHttpResponse {
+
     private Response mResponse;
 
     private HttpHeader mHeaders;
@@ -63,7 +64,7 @@ public class OkHttpResponse extends AbstractHttpResponse {
     }
 
     /**
-     * function:获取响应头
+     * function:可通过HttpResponse实例来获取响应头
      */
     @Override
     public HttpHeader getHeaders() {

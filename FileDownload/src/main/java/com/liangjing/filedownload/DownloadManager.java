@@ -186,7 +186,7 @@ public class DownloadManager {
 
 
     /**
-     * //判断每个线程所需要下载多长的数据
+     * function:判断每个线程所需要下载多长的数据
      *
      * @param url
      * @param length

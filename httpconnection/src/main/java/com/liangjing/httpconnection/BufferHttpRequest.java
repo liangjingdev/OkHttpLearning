@@ -11,6 +11,7 @@ import java.io.OutputStream;
 /**
  * Created by liangjing on 2017/8/2.
  * function：请求流抽象处理BufferHttpRequest（Http请求--上层封装）
+ *           将输出流转化为输出字节流
  */
 
 public abstract class BufferHttpRequest extends AbstractHttpRequest {

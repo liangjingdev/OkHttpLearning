@@ -17,7 +17,8 @@ import java.net.URI;
 
 public class HttpRequestProvider {
 
-    //根据okhttp3.OkHttpClient这个类是否存在来返回true or false,在加载HttpRequestProvider.class该类的时候进行判断
+    //根据判断okhttp3.OkHttpClient这个类是否存在于该项目中来返回true or false（即判断该项目是否引入okhttp3）,
+    // 在加载HttpRequestProvider.class该类的时候就进行判断
     private static boolean OKHTTP_REQUEST = JudgeUtil.isExist("okhttp3.OkHttpClient", HttpRequestProvider.class.getClassLoader());
 
     //外界所选择的工厂类

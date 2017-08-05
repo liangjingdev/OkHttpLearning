@@ -33,7 +33,9 @@ public abstract class AbstractHttpRequest implements HttpRequest {
 
 
     /**
-     * function:获取请求头
+     * function:获取请求头.
+     *          外界可以调用该方法获取到请求头的一个实例，然后可以对请求头进行操作摄入自己需要配置的参数。
+     *          到时候若使用post请求方法即可将这些参数post上去
      *
      * @return
      */

@@ -8,11 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.liangjing.filedownload.DownloadManager;
-import com.liangjing.filedownload.http.DownloadCallback;
-import com.liangjing.filedownload.utils.LoggerUtil;
+import com.liangjing.httpconnection.entity.Person;
+import com.liangjing.httpconnection.services.MultiThreadProvider;
+import com.liangjing.httpconnection.services.MultiThreadRequest;
+import com.liangjing.httpconnection.services.MultiThreadResponse;
+import com.liangjing.httpconnection.utils.LoggerUtil;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mImageView = (ImageView) findViewById(R.id.image);
-        mProgress = (ProgressBar) findViewById(R.id.progress);
+//
+//        mImageView = (ImageView) findViewById(R.id.image);
+//        mProgress = (ProgressBar) findViewById(R.id.progress);
 
 //        //对Md5加密工作进行简单校验
 //        File file = FileStorageManager.getInstance().getFileByName("http:www.imooc.com");
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
         });
          */
-
+/*
         String imageUrl = "http://img.mukewang.com/597948540001f00407500250.jpg";
         String apkUrl = "http://shouji.360tpcdn.com/160901/84c090897cbf0158b498da0f42f73308/com.icoolme.android.weather_2016090200.apk";
         DownloadManager.getInstance().download(apkUrl, new DownloadCallback() {
@@ -85,21 +89,44 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void progress(int progress) {
-                LoggerUtil.debug("jing","progress ------>" + progress);
+                LoggerUtil.debug("jing", "progress ------>" + progress);
                 mProgress.setProgress(progress);
+            }
+        });*/
+
+        Map<String, String> map = new HashMap<>();
+        map.put("username", "liangjing");
+        map.put("userage", "20");
+
+        MultiThreadProvider.carryOut("http://10.0.3.2:8080/web/HelloServlet", map, new MultiThreadResponse<Person>() {
+            @Override
+            public void success(MultiThreadRequest request, Person data) {
+                LoggerUtil.debug("jing", data.toString());
+            }
+
+            @Override
+            public void fail(int errorCode, String errorMessage) {
+                System.out.println("111");
             }
         });
     }
+
+
 
     /**
      * function:下载APK
      *
      * @param file
      */
+
     private void installApk(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setDataAndType(Uri.parse("file://" + file.getAbsoluteFile().toString()), "application/vnd.android.package-archive");
         MainActivity.this.startActivity(intent);
     }
+
 }
+
+
+

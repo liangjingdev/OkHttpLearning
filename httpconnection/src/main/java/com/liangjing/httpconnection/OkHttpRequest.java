@@ -55,6 +55,13 @@ public class OkHttpRequest extends BufferHttpRequest {
         return URI.create(mUrl);
     }
 
+    /**
+     * function:获取okhttp网络请求所对应的Response
+     * @param header
+     * @param data
+     * @return
+     * @throws IOException
+     */
     @Override
     protected HttpResponse executeInternal(HttpHeader header, byte[] data) throws IOException {
         //首先判断请求方法是否为post。因为post请求有请求体(requestBody)，而get方法没有请求体。
