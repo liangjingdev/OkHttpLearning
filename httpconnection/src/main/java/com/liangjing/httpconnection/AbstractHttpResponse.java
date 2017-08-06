@@ -66,7 +66,6 @@ public abstract class AbstractHttpResponse implements HttpResponse {
                 e.printStackTrace();
             }
         }
-
         //关闭输入流
         closeInternal();
     }

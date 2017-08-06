@@ -4,7 +4,6 @@ import com.liangjing.httpconnection.entity.Person;
 import com.liangjing.httpconnection.services.MultiThreadProvider;
 import com.liangjing.httpconnection.services.MultiThreadRequest;
 import com.liangjing.httpconnection.services.MultiThreadResponse;
-import com.liangjing.httpconnection.utils.LoggerUtil;
 
 import org.junit.Test;
 
@@ -62,8 +61,7 @@ public class ExampleUnitTest {
 
 
 /*
-
-    3、测试：利用工厂模式创建相对应的HttpRequest执行Get请求
+   // 3、测试：利用工厂模式创建相对应的HttpRequest执行Get请求
 
         URI uri = new URI("http://www.baidu.com");
         OkHttpClient client = new OkHttpClient();
@@ -88,9 +86,7 @@ public class ExampleUnitTest {
         }*/
 
 
-
-/*
-   //  4、利用工厂模式创建相对应的HttpRequest执行Post请求上传表单数据
+/*   //  4、利用工厂模式创建相对应的HttpRequest执行Post请求上传表单数据
 
         URI uri = new URI("http://localhost:8080/web/HelloServlet");
         OkHttpClient client = new OkHttpClient();
@@ -113,22 +109,19 @@ public class ExampleUnitTest {
         BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()));
         while ((content = reader.readLine()) != null) {
             System.out.println(content);
-        }
-*/
-//192.168.155.1
+        }*/
         Map<String, String> map = new HashMap<>();
         map.put("username", "liangjing");
         map.put("userage", "20");
 
-        MultiThreadProvider.carryOut("http://localhost/127.0.0.1:8080/web/HelloServlet", map, new MultiThreadResponse<Person>() {
+        MultiThreadProvider.carryOut("http://localhost:8080/web/HelloServlet", map, new MultiThreadResponse<Person>() {
             @Override
             public void success(MultiThreadRequest request, Person data) {
-                LoggerUtil.debug("jing", data.toString());
+                System.out.println(" " + data.toString());
             }
 
             @Override
             public void fail(int errorCode, String errorMessage) {
-                System.out.println("111");
             }
         });
     }

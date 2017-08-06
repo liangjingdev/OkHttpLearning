@@ -1,5 +1,7 @@
 package com.liangjing.httpconnection.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by liangjing on 2017/8/5.
  * function:测试--实体类
@@ -7,8 +9,10 @@ package com.liangjing.httpconnection.entity;
 
 public class Person {
 
+    @SerializedName("username")
     private String name;
 
+    @SerializedName("userage")
     private int age;
 
     public String getName() {

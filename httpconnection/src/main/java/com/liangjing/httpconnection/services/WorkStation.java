@@ -75,6 +75,7 @@ public class WorkStation {
             //如果正在运行的数目已经大于60了，那么我们需要把请求对象放入到mCache缓存队列中
             mCache.add(request);
         } else {
+            mRunning.add(request);
             doHttpRequest(request);
         }
     }
@@ -88,7 +89,6 @@ public class WorkStation {
 
         HttpRequest httpRequest = null;
         try {
-            //默认的情况下就是执行原生的http请求（详情可看HttpRequestProvider）
             httpRequest = mRequestProvider.getHttpRequest(URI.create(request.getUrl()), request.getMethod());
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class WorkStation {
 
         while (iterator.hasNext()) {
             MultiThreadRequest next = iterator.next();
-            mCache.add(next);
+            mRunning.add(next);
             //将刚刚添加到运行列表中的请求任务从缓存列表中删掉
             iterator.remove();
             doHttpRequest(next);

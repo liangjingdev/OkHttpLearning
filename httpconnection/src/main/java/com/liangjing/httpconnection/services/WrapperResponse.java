@@ -52,7 +52,7 @@ public class WrapperResponse extends MultiThreadResponse<String> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return ;
+                return;
             }
         }
     }
@@ -64,7 +64,10 @@ public class WrapperResponse extends MultiThreadResponse<String> {
      * @return
      */
     private Type getType() {
+        //getGenericSuperclass() 通过反射获取当前类表示的实体（类，接口，基本类型或void）的直接父类的Type
         Type type = mMultiResponse.getClass().getGenericSuperclass();
+        //Type[] params = ((ParameterizedType) type).getActualTypeArguments();这行代码的意思是，
+        // 如果支持泛型，返回表示此类型实际类型参数的Type对象的数组,数组里放的都是对应类型的Class，因为可能有多个，所以是数组。
         Type[] paramType = ((ParameterizedType) type).getActualTypeArguments();
         return paramType[0];
     }
@@ -72,6 +75,5 @@ public class WrapperResponse extends MultiThreadResponse<String> {
 
     @Override
     public void fail(int errorCode, String errorMessage) {
-
     }
 }

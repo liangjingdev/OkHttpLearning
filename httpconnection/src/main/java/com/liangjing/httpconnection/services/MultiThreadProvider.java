@@ -21,7 +21,7 @@ import java.util.Map;
 public class MultiThreadProvider {
 
     //文件编码
-    private static final String ENCODING = "utf-8";
+    private static final String ENCODING = "UTF-8";
 
     private static WorkStation sWorkStation = new WorkStation();
 

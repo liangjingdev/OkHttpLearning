@@ -1,5 +1,8 @@
 package com.liangjing.httpconnection.services;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import com.liangjing.httpconnection.http.HttpRequest;
 import com.liangjing.httpconnection.http.HttpResponse;
 
@@ -37,6 +40,7 @@ public class HttpRunnable implements Runnable {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void run() {
         try {
@@ -53,7 +57,7 @@ public class HttpRunnable implements Runnable {
                 //设置接口回调（业务层）
                 if (mRequest.getResponse() != null) {
                     //把服务器返回的数据传递出去，传递出去的话我们需要得到它的一个流--getData()方法，然后再将其转化成String类型
-                    mRequest.getResponse().success(mRequest, new String(getData(response)));
+                    mRequest.getResponse().success(mRequest, new String(getData(response), "UTF-8"));
                 }
             }
 
